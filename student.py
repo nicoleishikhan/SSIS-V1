@@ -11,8 +11,8 @@ class StudentInformationSystemGUI:
     def setup_ui(self):
         self.master.title("Student Management System")
         self.master.configure(bg="#f0f4f8")
-        self.master.geometry("700x750")
-        self.master.resizable(False, False)
+        self.master.attributes('-fullscreen', True)
+        self.master.bind("<Escape>", self.exit_fullscreen)
 
         self.create_header()
         self.create_form()
@@ -29,7 +29,7 @@ class StudentInformationSystemGUI:
             fg="#0d47a1",
             pady=10
         )
-        header.pack(side=tk.TOP, fill=tk.X, pady=20)
+        header.pack(side=tk.TOP, fill=tk.X, pady=10)
 
     def create_form(self):
         self.csv_filename = "students.csv"
@@ -38,20 +38,20 @@ class StudentInformationSystemGUI:
         self.entries = {}
 
         form_frame = tk.Frame(self.master, bg="#f0f4f8")
-        form_frame.pack(pady=20)
+        form_frame.pack(pady=10)
 
         for idx, label_text in enumerate(labels):
             label = tk.Label(form_frame, text=label_text, font=("Helvetica", 14), bg="#f0f4f8", fg="#0d47a1")
-            label.grid(row=idx, column=0, padx=10, pady=10, sticky='w')
+            label.grid(row=idx, column=0, padx=10, pady=5, sticky='w')
             if label_text == "Gender":
                 self.gender_var = tk.StringVar(self.master)
                 self.gender_var.set("Select Gender")  # Default value
                 entry = tk.OptionMenu(form_frame, self.gender_var, "Male", "Female", "Other")
                 entry.config(font=("Helvetica", 12), bg="white", fg="#0d47a1")
-                entry.grid(row=idx, column=1, padx=10, pady=10, sticky='w')
+                entry.grid(row=idx, column=1, padx=10, pady=5, sticky='w')
             else:
                 entry = tk.Entry(form_frame, font=("Helvetica", 14))
-                entry.grid(row=idx, column=1, padx=10, pady=10, sticky='w')
+                entry.grid(row=idx, column=1, padx=10, pady=5, sticky='w')
             self.entries[label_text] = entry
 
     def create_buttons(self):
@@ -88,11 +88,15 @@ class StudentInformationSystemGUI:
         search_btn.pack(pady=5)
 
     def create_treeview(self):
-        self.tree = ttk.Treeview(self.master, columns=self.fields, show="headings")
+        tree_frame = tk.Frame(self.master, bg="#f0f4f8")
+        tree_frame.pack(fill=tk.BOTH, expand=True)
+        
+        self.tree = ttk.Treeview(tree_frame, columns=self.fields, show="headings")
         for field in self.fields:
             self.tree.heading(field, text=field)
             self.tree.column(field, width=100)
-        self.tree.pack(pady=20)
+        
+        self.tree.pack(fill=tk.BOTH, expand=True, padx=20, pady=20)
 
     def load_students(self):
         self.tree.delete(*self.tree.get_children())
@@ -207,6 +211,9 @@ class StudentInformationSystemGUI:
     def clear_entries(self):
         for entry in self.entries.values():
             entry.delete(0, tk.END)
+
+    def exit_fullscreen(self, event=None):
+        self.master.attributes('-fullscreen', False)
 
 def main():
     root = tk.Tk()

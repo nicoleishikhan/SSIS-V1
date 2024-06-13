@@ -11,8 +11,8 @@ class ElegantStudentSystem(tk.Tk):
     def setup_interface(self):
         self.title("Student Management System")
         self.configure(bg="#f0f4f8")
-        self.geometry("700x450")
-        self.resizable(False, False)
+        self.attributes('-fullscreen', True)
+        self.bind("<Escape>", self.exit_fullscreen)
 
         self.create_header()
         self.create_buttons()
@@ -111,6 +111,9 @@ class ElegantStudentSystem(tk.Tk):
     def quit_application(self):
         if messagebox.askokcancel("Exit", "Are you sure you want to exit?"):
             self.destroy()
+
+    def exit_fullscreen(self, event=None):
+        self.attributes('-fullscreen', False)
 
 def start_app():
     app = ElegantStudentSystem()

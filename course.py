@@ -11,8 +11,8 @@ class CourseInformationSystemGUI:
     def setup_ui(self):
         self.master.title("Course Management System")
         self.master.configure(bg="#f0f4f8")
-        self.master.geometry("700x600")
-        self.master.resizable(False, False)
+        self.master.attributes('-fullscreen', True)
+        self.master.bind("<Escape>", self.exit_fullscreen)
 
         self.create_header()
         self.create_form()
@@ -199,6 +199,9 @@ class CourseInformationSystemGUI:
     def clear_entries(self):
         for entry in self.entries.values():
             entry.delete(0, tk.END)
+
+    def exit_fullscreen(self, event=None):
+        self.master.attributes('-fullscreen', False)
 
 def main():
     root = tk.Tk()
