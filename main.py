@@ -3,13 +3,13 @@ from tkinter import messagebox
 from student import StudentInformationSystemGUI
 from course import CourseInformationSystemGUI
 
-class ElegantStudentSystem(tk.Tk):
+class StudentSystem(tk.Tk):
     def __init__(self):
         super().__init__()
         self.setup_interface()
 
     def setup_interface(self):
-        self.title("Student Management System")
+        self.title("Simple Student Information System")
         self.configure(bg="#f0f4f8")
         self.attributes('-fullscreen', True)
         self.bind("<Escape>", self.exit_fullscreen)
@@ -30,7 +30,7 @@ class ElegantStudentSystem(tk.Tk):
 
         instruction_label = tk.Label(
             self,
-            text="Select an option to proceed:",
+            text="Select to proceed:",
             font=("Helvetica", 16),
             bg="#f0f4f8",
             fg="#1976d2"
@@ -116,7 +116,7 @@ class ElegantStudentSystem(tk.Tk):
         self.attributes('-fullscreen', False)
 
 def start_app():
-    app = ElegantStudentSystem()
+    app = StudentSystem()
     app.mainloop()
 
 if __name__ == "__main__":
